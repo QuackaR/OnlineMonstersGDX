@@ -8,17 +8,22 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Rectangle;
 
 public class Game implements Screen {
 
-    private Texture img;
-    private TiledMap tiledMap;
     private OrthographicCamera camera;
+
+    private TiledMap tiledMap;
     private TiledMapRenderer tiledMapRenderer;
+
     private SpriteBatch sb;
     private Texture texture;
     private Sprite sprite;
@@ -30,14 +35,15 @@ public class Game implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false,w,h);
         camera.update();
-        tiledMap = new TmxMapLoader().load("maps\\sewers.tmx");
+
+        tiledMap = new TmxMapLoader().load("maps\\Test.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
 
         sb = new SpriteBatch();
+
         texture = new Texture(Gdx.files.internal("textures\\char.png"));
         sprite = new Sprite(texture);
-        sprite.setScale(0.5f);
-        sprite.setPosition(Gdx.graphics.getWidth()/2 - texture.getWidth()/2, Gdx.graphics.getHeight()/2 - texture.getHeight()/2);
+        sprite.setPosition(0,0);
     }
 
     @Override
@@ -47,29 +53,75 @@ public class Game implements Screen {
 
     @Override
     public void render(float delta) {
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            camera.translate(1,0);
+        update();
+        draw();
+    }
+
+    private void update() {
+        if(Gdx.input.isKeyPressed(Input.Keys.D)){
+            camera.translate(5,0);
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            camera.translate(-1,0);
+        if(Gdx.input.isKeyPressed(Input.Keys.A)){
+            camera.translate(-5,0);
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-            camera.translate(0,1);
+        if(Gdx.input.isKeyPressed(Input.Keys.W)){
+            camera.translate(0,5);
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-            camera.translate(0,-1);
+        if(Gdx.input.isKeyPressed(Input.Keys.S)){
+            camera.translate(0,-5);
         }
 
+        float offsetX = 0;
+        float offsetY = 0;
+
+        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+            offsetX+=5;
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+            offsetX-=5;
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.UP)){
+            offsetY+=5;
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
+            offsetY-=5;
+        }
+
+        boolean intersectX = false;
+        boolean intersectY = false;
+
+        MapObjects objects = tiledMap.getLayers().get(1).getObjects();
+        for (RectangleMapObject rectangleObject : objects.getByType(RectangleMapObject.class)) {
+            Rectangle rectangle = rectangleObject.getRectangle();
+            if (Intersector.overlaps(rectangle, new Rectangle(sprite.getX() + offsetX, sprite.getY(), sprite.getWidth(), sprite.getHeight()))) {
+                intersectX = true;
+            }
+            if (Intersector.overlaps(rectangle, new Rectangle(sprite.getX(), sprite.getY() + offsetY, sprite.getWidth(), sprite.getHeight()))) {
+                intersectY = true;
+            }
+        }
+        if(!intersectX) {
+            sprite.translate(offsetX, 0);
+        }
+        if(!intersectY) {
+            sprite.translate(0, offsetY);
+        }
+    }
+
+    private void draw() {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        camera.translate(0,0);
-        camera.update();
+
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
+
+        sb.setProjectionMatrix(camera.combined);
         sb.begin();
         sprite.draw(sb);
         sb.end();
+
+        camera.update();
     }
 
     @Override

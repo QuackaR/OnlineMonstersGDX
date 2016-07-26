@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="40" height="40" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" source="desert.tsx"/>
+ <layer name="Ground" width="40" height="40">
+  <data encoding="base64" compression="zlib">
+   eJztmNkKwjAQRaN9cAPrAq5Yq3Xf6v9/nSM2VIbQJjEZR+nDwQZScrwztoORECLySBcIgZ7nc2y4KfyWDLx+Jb9nViNgDEwY+KioAXUgQN4+zpoCMwPmQAtoAx2CLFbA2oDEo9+hwG8DnIDtF/2K8ks086Tw2zH0uyMv7HcRr/6/EvvhnsPrsrxwX7rwU/0ODig/eV3mh3N1ld8eraWPaX6+64s9McesfrqcHfg1MpoifxcVEWjukyw+9AtFPl/I71pER3Of6j4bv7HI54s+MChhqLlPdZ/P3qMmFuo5h5NnTOhjM5tReN2yT51n5/v7J3F0vi46fk+ne7aX0i9l6If7mpufTX3f5wsqv9TAD2fJLT9VrTn7UeZnM5tR+v0LMQOHXwFnxe2/warGFRWf8QDjOLfP
+  </data>
+ </layer>
+ <objectgroup name="Objektebene 1" width="40" height="40">
+  <object x="367" y="174" width="66" height="294"/>
+  <object x="433" y="175" width="325" height="67"/>
+  <object x="495" y="243" width="263" height="125"/>
+  <object x="434" y="336" width="62" height="132"/>
+  <object x="496" y="368" width="131" height="100"/>
+  <object x="628" y="397" width="127" height="70"/>
+  <object x="689" y="368" width="69" height="28"/>
+ </objectgroup>
+</map>
