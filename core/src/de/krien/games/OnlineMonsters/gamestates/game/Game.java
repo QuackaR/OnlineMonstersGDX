@@ -25,9 +25,10 @@ public class Game implements Screen {
     }
 
     private void update() {
-        camera.update();
         map.update();
         player.update();
+        camera.update(player);
+        //camera.move(player.getSprite().getX(), player.getSprite().getY());
     }
 
     private void draw() {

@@ -26,7 +26,7 @@ public class Player {
         spriteBatch = new SpriteBatch();
         texture = new Texture(Gdx.files.internal("textures\\char.png"));
         sprite = new Sprite(texture);
-        sprite.setPosition(500,500);
+        sprite.setPosition(800,800);
     }
 
     public void update() {
@@ -72,5 +72,9 @@ public class Player {
         spriteBatch.begin();
         sprite.draw(spriteBatch);
         spriteBatch.end();
+    }
+
+    public Sprite getSprite() {
+        return sprite;
     }
 }

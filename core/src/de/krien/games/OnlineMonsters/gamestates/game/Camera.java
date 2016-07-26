@@ -18,19 +18,8 @@ public class Camera {
         camera.update();
     }
 
-    public void update() {
-        if(Gdx.input.isKeyPressed(Input.Keys.D)){
-            camera.translate(5,0);
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.A)){
-            camera.translate(-5,0);
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.W)){
-            camera.translate(0,5);
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.S)){
-            camera.translate(0,-5);
-        }
+    public void update(Player player) {
+        camera.translate(player.getSprite().getX() - camera.position.x, player.getSprite().getY() - camera.position.y);
     }
 
     public void draw() {
@@ -41,6 +30,10 @@ public class Camera {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    }
+
+    public void move(float x, float y) {
+        camera.translate(x - camera.position.x, y - camera.position.y);
     }
 
     public OrthographicCamera getCamera() {
