@@ -19,7 +19,7 @@ public class Camera {
     }
 
     public void update(Player player) {
-        camera.translate(player.getSprite().getX() - camera.position.x, player.getSprite().getY() - camera.position.y);
+        camera.translate(player.getPosition().x - camera.position.x, player.getPosition().y - camera.position.y);
     }
 
     public void draw() {

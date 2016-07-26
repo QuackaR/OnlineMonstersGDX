@@ -2,13 +2,17 @@ package de.krien.games.OnlineMonsters.gamestates.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 
 public class Player {
 
@@ -16,17 +20,25 @@ public class Player {
     private Map map;
 
     private SpriteBatch spriteBatch;
-    private Texture texture;
-    private Sprite sprite;
+
+    private PlayerAnimation playerAnimation;
+    private TextureRegion currentFrame;
+    private float stateTime;
+
+    private Vector2 position;
 
     public Player(Camera camera, Map map) {
         this.camera = camera;
         this.map = map;
 
+        PlayerAnimation.init();
+        playerAnimation = PlayerAnimation.STAND;
+
         spriteBatch = new SpriteBatch();
-        texture = new Texture(Gdx.files.internal("textures\\char.png"));
-        sprite = new Sprite(texture);
-        sprite.setPosition(800,800);
+        position = new Vector2(900, 900);
+
+        spriteBatch = new SpriteBatch();
+        stateTime = 0f;
     }
 
     public void update() {
@@ -52,29 +64,44 @@ public class Player {
         MapObjects objects = map.getTiledMap().getLayers().get(2).getObjects();
         for (RectangleMapObject rectangleObject : objects.getByType(RectangleMapObject.class)) {
             Rectangle rectangle = rectangleObject.getRectangle();
-            if (Intersector.overlaps(rectangle, new Rectangle(sprite.getX() + offsetX, sprite.getY(), sprite.getWidth(), sprite.getHeight()))) {
+            if (Intersector.overlaps(rectangle, new Rectangle(position.x + offsetX, position.y, playerAnimation.getWidth(), playerAnimation.getHeight()))) {
                 intersectX = true;
             }
-            if (Intersector.overlaps(rectangle, new Rectangle(sprite.getX(), sprite.getY() + offsetY, sprite.getWidth(), sprite.getHeight()))) {
+            if (Intersector.overlaps(rectangle, new Rectangle(position.x , position.y + offsetY, playerAnimation.getWidth(), playerAnimation.getHeight()))) {
                 intersectY = true;
             }
         }
         if(!intersectX) {
-            sprite.translate(offsetX, 0);
+            position.add(offsetX, 0);
         }
         if(!intersectY) {
-            sprite.translate(0, offsetY);
+            position.add(0, offsetY);
         }
+
+        if(offsetX == 0 && offsetY == 0) {
+            playerAnimation = PlayerAnimation.STAND;
+        } else if(offsetY < 0) {
+            playerAnimation = PlayerAnimation.DOWN;
+        } else if(offsetY > 0) {
+            playerAnimation = PlayerAnimation.UP;
+        }else if(offsetX < 0) {
+            playerAnimation = PlayerAnimation.LEFT;
+        } else if(offsetX > 0) {
+            playerAnimation = PlayerAnimation.RIGHT;
+        }
+
     }
 
     public void draw() {
         spriteBatch.setProjectionMatrix(camera.getCamera().combined);
+        stateTime += Gdx.graphics.getDeltaTime();           // #15
+        currentFrame = playerAnimation.getAnimation().getKeyFrame(stateTime, true);  // #16
         spriteBatch.begin();
-        sprite.draw(spriteBatch);
+        spriteBatch.draw(currentFrame, position.x, position.y);             // #17
         spriteBatch.end();
     }
 
-    public Sprite getSprite() {
-        return sprite;
+    public Vector2 getPosition() {
+        return position;
     }
 }
