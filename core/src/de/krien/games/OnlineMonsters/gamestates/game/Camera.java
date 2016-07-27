@@ -1,9 +1,9 @@
 package de.krien.games.OnlineMonsters.gamestates.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector2;
 
 public class Camera {
 
@@ -18,8 +18,8 @@ public class Camera {
         camera.update();
     }
 
-    public void update(Player player) {
-        camera.translate(player.getPosition().x - camera.position.x, player.getPosition().y - camera.position.y);
+    public void update(Vector2 position) {
+        camera.translate(position.x - camera.position.x, position.y - camera.position.y);
     }
 
     public void draw() {

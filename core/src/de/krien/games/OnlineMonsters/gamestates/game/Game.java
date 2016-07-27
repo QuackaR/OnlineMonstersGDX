@@ -1,6 +1,7 @@
 package de.krien.games.OnlineMonsters.gamestates.game;
 
 import com.badlogic.gdx.Screen;
+import de.krien.games.OnlineMonsters.gamestates.game.player.Player;
 
 public class Game implements Screen {
 
@@ -10,8 +11,8 @@ public class Game implements Screen {
 
     public Game() {
         camera = new Camera();
-        map = new Map(camera);
-        player = new Player(camera, map);
+        map = new Map();
+        player = new Player();
     }
 
     @Override
@@ -27,8 +28,7 @@ public class Game implements Screen {
     private void update() {
         map.update();
         player.update();
-        camera.update(player);
-        //camera.move(player.getSprite().getX(), player.getSprite().getY());
+        camera.update(player.getPosition());
     }
 
     private void draw() {
@@ -56,5 +56,17 @@ public class Game implements Screen {
 
     @Override
     public void dispose() {
+    }
+
+    public Map getMap() {
+        return map;
+    }
+
+    public Camera getCamera() {
+        return camera;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }

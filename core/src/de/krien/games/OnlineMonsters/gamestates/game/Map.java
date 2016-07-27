@@ -4,17 +4,14 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import de.krien.games.OnlineMonsters.gamestates.core.EGameState;
 
 public class Map {
-
-    private Camera camera;
 
     private TiledMap tiledMap;
     private TiledMapRenderer tiledMapRenderer;
 
-    public Map(Camera camera) {
-        this.camera = camera;
-
+    public Map() {
         tiledMap = new TmxMapLoader().load("maps\\Test.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
     }
@@ -24,7 +21,7 @@ public class Map {
     }
 
     public void draw() {
-        tiledMapRenderer.setView(camera.getCamera());
+        tiledMapRenderer.setView(((Game) EGameState.GAME.getScreen()).getCamera().getCamera());
         tiledMapRenderer.render();
     }
 

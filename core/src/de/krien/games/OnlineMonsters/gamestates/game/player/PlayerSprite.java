@@ -1,4 +1,4 @@
-package de.krien.games.OnlineMonsters.gamestates.game;
+package de.krien.games.OnlineMonsters.gamestates.game.player;
 
 
 import com.badlogic.gdx.Gdx;
@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public enum PlayerAnimation {
+public enum PlayerSprite {
     STAND,
     DOWN,
     LEFT,
