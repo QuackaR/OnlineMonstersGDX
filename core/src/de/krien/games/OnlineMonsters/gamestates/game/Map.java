@@ -12,7 +12,7 @@ public class Map {
     private TiledMapRenderer tiledMapRenderer;
 
     public Map() {
-        tiledMap = new TmxMapLoader().load("maps\\Test.tmx");
+        tiledMap = new TmxMapLoader().load("maps\\Test2.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
     }
 

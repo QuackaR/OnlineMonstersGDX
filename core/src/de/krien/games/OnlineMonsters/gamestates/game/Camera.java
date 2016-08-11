@@ -16,6 +16,7 @@ public class Camera {
         camera = new OrthographicCamera();
         camera.setToOrtho(false,w,h);
         camera.update();
+        camera.zoom -= 0.66f;
     }
 
     public void update(Vector2 position) {

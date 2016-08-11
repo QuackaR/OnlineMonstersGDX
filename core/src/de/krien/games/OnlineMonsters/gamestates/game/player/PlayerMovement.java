@@ -27,7 +27,7 @@ public class PlayerMovement {
         PlayerSprite.init();
         playerSprite = PlayerSprite.STAND;
         stateTime = 0f;
-        position = new Vector2(900, 900);
+        position = new Vector2(240, 240);
     }
 
     public void update() {
@@ -69,7 +69,7 @@ public class PlayerMovement {
 
     private boolean[] checkIntersection(Vector2 offset) {
         boolean[] intersection = new boolean[2];
-        MapObjects objects = ((Game) EGameState.GAME.getScreen()).getMap().getTiledMap().getLayers().get(2).getObjects();
+        MapObjects objects = ((Game) EGameState.GAME.getScreen()).getMap().getTiledMap().getLayers().get(3).getObjects();
         for (RectangleMapObject rectangleObject : objects.getByType(RectangleMapObject.class)) {
             Rectangle rectangle = rectangleObject.getRectangle();
             if (Intersector.overlaps(rectangle, new Rectangle(position.x + offset.x, position.y, playerSprite.getWidth(), playerSprite.getHeight()))) {

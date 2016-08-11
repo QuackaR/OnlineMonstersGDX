@@ -24,7 +24,7 @@ public enum PlayerSprite {
     private static Animation walkUpAnimation;
 
     public static void init() {
-        walkSheet = new Texture(Gdx.files.internal("textures\\Character01.png"));
+        walkSheet = new Texture(Gdx.files.internal("textures\\Character02.png"));
         TextureRegion[][] tmp = TextureRegion.split(walkSheet, walkSheet.getWidth()/FRAME_COLS, walkSheet.getHeight()/FRAME_ROWS);
 
         TextureRegion[] walkDownFrames = tmp[0];
